@@ -1,32 +1,54 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app id="inspire">
+    <v-navigation-drawer
+      v-model="drawer"
+      app
+    >
+      <v-list dense >
+        <div v-for="(item, index) in items" :key="index">
+           <v-list-item link :to="item.path">
+          <v-list-item-content>
+            <v-list-item-title>{{ item.name.toUpperCase() }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        </div>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-app-bar
+      app
+      color="indigo"
+      dark
+    >
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-toolbar-title>Opratel</v-toolbar-title>
+    </v-app-bar>
+
+    <v-content>
+      <v-container
+        fluid
+      >
+      <router-view></router-view>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
-#nav {
-  padding: 30px;
-}
+<script>
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+  export default {
+    data: () => ({
+      drawer: false,
+      items: []
+    }),
+   created(){
+     this.$router.options.routes.forEach(route => {
+            this.items.push({
+                name: route.name
+                , path: route.path
+            })
+        })
+   }
+  }
+</script>
