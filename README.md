@@ -1,4 +1,4 @@
-# opratel-front
+# style-front
 
 ## Project setup
 ```
